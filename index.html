@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demodaran-Style DCF Prompt & Valuation App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Demodaran-Style DCF Calculator</h1>
+        <p>
+          Generate an LLM system prompt that asks for a structured JSON payload, then paste the JSON
+          back here to run a full FCFF DCF valuation.
+        </p>
+      </header>
+
+      <section class="card">
+        <h2>1) Company Context</h2>
+        <div class="grid">
+          <label>
+            Company Name
+            <input id="companyName" type="text" value="Apple Inc." />
+          </label>
+          <label>
+            Ticker
+            <input id="ticker" type="text" value="AAPL" />
+          </label>
+          <label>
+            Country / Region
+            <input id="region" type="text" value="United States" />
+          </label>
+          <label>
+            Currency
+            <input id="currency" type="text" value="USD" />
+          </label>
+          <label>
+            Forecast Horizon (years)
+            <input id="forecastYears" type="number" min="3" max="15" value="10" />
+          </label>
+          <label>
+            Stable Growth (terminal) guardrail
+            <input id="stableGrowthGuardrail" type="text" value="<= risk-free rate" />
+          </label>
+        </div>
+        <button id="generatePrompt">Generate LLM System Prompt</button>
+      </section>
+
+      <section class="card">
+        <h2>2) System Prompt for the LLM</h2>
+        <textarea id="systemPrompt" rows="18" readonly></textarea>
+        <div class="row">
+          <button id="copyPrompt">Copy Prompt</button>
+          <button id="loadExample">Load Example JSON</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3) Paste JSON returned by the LLM</h2>
+        <textarea id="jsonInput" rows="20" placeholder="Paste raw JSON here..."></textarea>
+        <div class="row">
+          <button id="calculate">Calculate DCF</button>
+          <span id="status" role="status"></span>
+        </div>
+      </section>
+
+      <section class="card" id="resultsCard" hidden>
+        <h2>4) Valuation Output</h2>
+        <div class="metrics" id="metrics"></div>
+        <h3>Forecast Details</h3>
+        <div class="tableWrap">
+          <table id="forecastTable">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Revenue</th>
+                <th>Op Margin</th>
+                <th>EBIT</th>
+                <th>Tax Rate</th>
+                <th>NOPAT</th>
+                <th>Reinvestment</th>
+                <th>FCFF</th>
+                <th>Discount Factor</th>
+                <th>PV FCFF</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
